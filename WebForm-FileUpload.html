@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload and Email Validation</title>
+    <script>
+        function validateEmail(email) {
+            // Simple email validation regex
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function validateForm() {
+            const emailInput = document.getElementById('email');
+            const fileInput = document.getElementById('file');
+            const errorMessage = document.getElementById('error-message');
+
+            // Validate email
+            if (!validateEmail(emailInput.value)) {
+                errorMessage.textContent = 'Invalid email format';
+                return false;
+            }
+
+            // Validate file type
+            const allowedExtensions = ['jpg', 'jpeg', 'png'];
+            const fileExtension = fileInput.value.split('.').pop().toLowerCase();
+            if (!allowedExtensions.includes(fileExtension)) {
+                errorMessage.textContent = 'Only JPEG and PNG files are allowed!';
+                return false;
+            }
+
+            errorMessage.textContent = ''; // Clear error message
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h1>File Upload and Email Validation</h1>
+    <form method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+        <label for="file">Choose a JPEG or PNG file:</label>
+        <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png" required>
+        <br>
+        <p id="error-message" style="color: red;"></p>
+        <input type="submit" value="Upload">
+    </form>
+</body>
+</html>
